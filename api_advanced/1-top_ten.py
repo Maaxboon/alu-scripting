@@ -1,22 +1,37 @@
 #!/usr/bin/python3
-"""Print the titles of the first 10Hot Posts"""
+"""
+Contains the top_ten function.
+"""
+
 import requests
 
 
 def top_ten(subreddit):
-    """The top ten titles"""
-    headers = {'User-Agent': 'MyAPI/0.0.1'}
-    url = "https://reddit.com/r/{}.json".format(subreddit)
-    response = requests.get(url, headers=headers)
+    """Prints the titles of the first 10 hot posts for a given subreddit."""
+    if subreddit is None or not isinstance(subreddit, str):
+        print(None)
+        return
 
-    if response.status_code == 200:
-        json_data = response.json()
-        for i in range(10):
-            print(
-                    json_data.get('data')
-                    .get('children')[i]
-                    .get('data')
-                    .get('title')
-                )
-    else:
+    url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=10'
+    headers = {
+        'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/firdaus_cartoon_jr)'
+    }
+
+    try:
+        response = requests.get(url, headers=headers, allow_redirects=False, timeout=10)
+        
+        # Check if the subreddit is valid by looking at the response status code
+        if response.status_code == 200:
+            data = response.json().get("data", {}).get("children", [])
+            if len(data) == 0:
+                print(None)
+                return
+
+            for post in data:
+                print(post.get("data", {}).get("title"))
+
+        else:
+            print(None)
+
+    except requests.RequestException:
         print(None)
