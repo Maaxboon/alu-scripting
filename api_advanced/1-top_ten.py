@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the top_ten function.
+Contains the top_ten function to query Reddit API and print titles of 10 hot posts.
 """
 
 import requests
@@ -18,9 +18,10 @@ def top_ten(subreddit):
     }
 
     try:
+        # Prevents redirects to search results for invalid subreddits
         response = requests.get(url, headers=headers, allow_redirects=False, timeout=10)
         
-        # Check if the subreddit is valid by looking at the response status code
+        # Check if subreddit exists by checking the status code
         if response.status_code == 200:
             data = response.json().get("data", {}).get("children", [])
             if len(data) == 0:
