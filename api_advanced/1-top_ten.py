@@ -2,7 +2,6 @@
 """Print the titles of the first 10Hot Posts"""
 import requests
 
-
 def top_ten(subreddit):
     """The top ten titles"""
     headers = {'User-Agent': 'MyAPI/0.0.1'}
@@ -19,4 +18,4 @@ def top_ten(subreddit):
                     .get('title')
                 )
     else:
-        print(None)
+        print(None) 
