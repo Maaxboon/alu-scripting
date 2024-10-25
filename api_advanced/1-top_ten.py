@@ -1,30 +1,22 @@
 #!/usr/bin/python3
-"""Prints the title of the first 10 hot posts listed for a given subreddit"""
-
+"""Print the titles of the first 10Hot Posts"""
 import requests
 
 
 def top_ten(subreddit):
-    """Main function"""
-    URL = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    HEADERS = {"User-Agent": "PostmanRuntime/7.35.0"}
-    
-    try:
-        response = requests.get(URL, headers=HEADERS, allow_redirects=False)
-        
-        # Check if response is successful and contains data
-        if response.status_code != 200:
-            print(None)
-            return
-        
-        hot_posts = response.json().get("data", {}).get("children", None)
-        
-        if not hot_posts:
-            print(None)
-        else:
-            for post in hot_posts:
-                print(post.get("data", {}).get("title"))
-    except Exception:
-        print(None)
+    """The top ten titles"""
+    headers = {'User-Agent': 'MyAPI/0.0.1'}
+    url = "https://reddit.com/r/{}.json".format(subreddit)
+    response = requests.get(url, headers=headers)
 
-# Make sure to remove trailing whitespace from blank lines
+    if response.status_code == 200:
+        json_data = response.json()
+        for i in range(10):
+            print(
+                    json_data.get('data')
+                    .get('children')[i]
+                    .get('data')
+                    .get('title')
+                )
+    else:
+        print(None)
