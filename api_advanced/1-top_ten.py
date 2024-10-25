@@ -1,18 +1,20 @@
 #!/usr/bin/python3
-"""Print the titles of the first 10Hot Posts"""
+""""Doc"""
 import requests
 
 
 def top_ten(subreddit):
-    """Get 10 hot posts"""
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
-    headers = {'user-agent': 'request'}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    """"Doc"""
+    url = "https://www.reddit.com/r/{}/hot.json?limit=10" \
+        .format(subreddit)
 
-    if response.status_code != 200:
+    res = requests.get(url,
+                       headers={
+                           'User-Agent': 'Mozilla/5.0'})
+
+    if res.status_code != 200:
         print(None)
-        return
-
-    data = response.json().get("data").get("children")
-    top_10_posts = "\n".join(post.get("data").get("title") for post in data)
-    print(top_10_posts)
+    else:
+        json_response = res.json()
+        posts = json_response.get('data').get('children')
+        [print(post.get('data').get('title')) for post in posts]
