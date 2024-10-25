@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-    Uses reddit API to get 10 hot posts
-"""
+"""Print the titles of the first 10Hot Posts"""
 import requests
 
 
