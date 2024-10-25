@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Print the titles of the first 10 hot posts in a subreddit"""
+"""Print the titles of the first 10 hot posts in a subreddit."""
 import requests
 
 
@@ -9,11 +9,12 @@ def top_ten(subreddit):
     headers = {"User-Agent": "MyAPI/0.0.1"}
     response = requests.get(url, headers=headers, allow_redirects=False)
 
-    # Check for valid response (status code 200) and parse titles
     if response.status_code == 200:
-        json_data = response.json().get("data", {}).get("children", [])
-        if json_data:
-            for post in json_data[:10]:
+        data = response.json().get("data", {}).get("children", [])
+        
+        # Check if there are posts; otherwise print None
+        if data:
+            for post in data[:10]:
                 print(post["data"].get("title"))
         else:
             print("None")
